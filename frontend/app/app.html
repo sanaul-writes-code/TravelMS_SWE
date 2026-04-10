@@ -1,0 +1,48 @@
+@if (auth.isLoggedIn) {
+  <nav>
+    <span class="brand">TravelMS</span>
+
+    @if (auth.isAdmin) {
+      <a routerLink="/users" routerLinkActive="active">Users</a>
+    }
+    <a routerLink="/trips" routerLinkActive="active">Trips</a>
+    <a routerLink="/expenses" routerLinkActive="active">Expenses</a>
+    <a routerLink="/reports" routerLinkActive="active">Reports</a>
+
+    <div class="nav-right">
+      <div class="notif-wrap">
+        <button class="notif-btn" (click)="toggleNotifications()">
+          Notifications
+          @if (unreadCount > 0) {
+            <span class="notif-badge">{{ unreadCount }}</span>
+          }
+        </button>
+
+        @if (showNotifications) {
+          <div class="notif-dropdown">
+            @for (notification of notifications; track notification.notification_id) {
+              <button
+                class="notif-item"
+                [class.unread]="!notification.is_read"
+                (click)="markNotificationRead(notification)">
+                <span class="notif-type">{{ notification.notification_type }}</span>
+                <span class="notif-message">{{ notification.message }}</span>
+                <span class="notif-time">{{ notification.created_at }}</span>
+              </button>
+            } @empty {
+              <div class="notif-empty">No notifications yet.</div>
+            }
+          </div>
+        }
+      </div>
+
+      <span class="nav-user">
+        {{ auth.user?.first_name }} {{ auth.user?.last_name }}
+        <span class="nav-role">{{ auth.user?.role }}</span>
+      </span>
+      <button class="nav-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+}
+
+<router-outlet />
