@@ -27,7 +27,7 @@ export interface RegisterPayload {
 export class AuthService {
   private _user: AuthUser | null = null;
   private _sessionToken: string | null = null;
-  private base = 'http://localhost:3000/api';
+  private base = 'https://travelmsswe-production.up.railway.app/api';
 
   constructor(private http: HttpClient) {
     const savedUser = localStorage.getItem('tms_user');
