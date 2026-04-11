@@ -6,10 +6,17 @@ const pool = require('./db');
 
 const app = express();
 app.use(cors({
-  origin: [
-    'http://localhost:4200',
-    'https://travel-ms-swe.vercel.app'
-  ],
+  origin: (origin, callback) => {
+    const allowed = [
+      'http://localhost:4200',
+      'https://travel-ms-swe.vercel.app'
+    ];
+    if (!origin || allowed.includes(origin) || /^https:\/\/travel-ms-.*\.vercel\.app$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
