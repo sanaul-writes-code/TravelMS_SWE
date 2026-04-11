@@ -768,7 +768,7 @@ app.post('/api/expenses', requireAuth, async (req, res) => {
     }
 
     const isAdmin = req.user.role === 'Admin';
-    if (!isAdmin && trip.user_id !== req.user.user_id) {
+    if (!await canAccessTripOrMember(trip, req.user.user_id, isAdmin)) {
       return res.status(403).json({ error: 'Forbidden' });
     }
 
