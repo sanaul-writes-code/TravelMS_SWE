@@ -87,6 +87,9 @@ export class ApiService {
 
   // Users
   getUsers(): Observable<User[]> { return this.http.get<User[]>(`${this.base}/users`); }
+  getUsersBasic(): Observable<Pick<User, 'user_id' | 'first_name' | 'last_name'>[]> {
+    return this.http.get<Pick<User, 'user_id' | 'first_name' | 'last_name'>[]>(`${this.base}/users/basic`);
+  }
   createUser(u: User): Observable<User> { return this.http.post<User>(`${this.base}/users`, u); }
   updateUser(id: number, u: User): Observable<unknown> { return this.http.put(`${this.base}/users/${id}`, u); }
   deleteUser(id: number): Observable<unknown> { return this.http.delete(`${this.base}/users/${id}`); }

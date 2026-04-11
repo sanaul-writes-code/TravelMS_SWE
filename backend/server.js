@@ -504,6 +504,15 @@ app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
     res.json(fmt(rows));
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
+app.get('/api/users/basic', requireAuth, async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT user_id, first_name, last_name FROM users WHERE is_active = 1 ORDER BY first_name`
+    );
+    res.json(fmt(rows));
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 // Suggested future protection: requireAuth, requireAdmin
 app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
   try {

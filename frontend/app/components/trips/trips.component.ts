@@ -325,6 +325,8 @@ export class TripsComponent implements OnInit {
   ngOnInit() {
     if (this.isAdmin) {
       this.api.getUsers().subscribe({ next: (u) => { this.users = u; this.cdr.detectChanges(); } });
+    } else {
+      this.api.getUsersBasic().subscribe({ next: (u) => { this.users = u as User[]; this.cdr.detectChanges(); } });
     }
     this.loadOfflineTrips();
     this.load();
