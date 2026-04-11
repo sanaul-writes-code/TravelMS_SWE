@@ -7,7 +7,9 @@
     }
     <a routerLink="/trips" routerLinkActive="active">Trips</a>
     <a routerLink="/expenses" routerLinkActive="active">Expenses</a>
-    <a routerLink="/reports" routerLinkActive="active">Reports</a>
+    @if (auth.isAdmin) {
+      <a routerLink="/reports" routerLinkActive="active">Reports</a>
+    }
 
     <div class="nav-right">
       <div class="notif-wrap">
