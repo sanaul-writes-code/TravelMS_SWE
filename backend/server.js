@@ -692,7 +692,7 @@ app.put('/api/trips/:id', requireAuth, async (req, res) => {
 
     const { user_id, destination, start_date, end_date, purpose, status, estimated_budget } = req.body;
     const nextUserId = isAdmin ? user_id : existingTrip.user_id;
-    const nextStatus = isAdmin ? status : existingTrip.status;
+    const nextStatus = isAdmin ? status : 'Pending';
     if (isAdmin && !isValidTripStatus(nextStatus)) {
       return res.status(400).json({ error: 'Invalid status' });
     }
