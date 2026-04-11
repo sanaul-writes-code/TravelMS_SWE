@@ -1,8 +1,5 @@
--- Run this script in MySQL to create or align the database schema
--- mysql -u root -p < setup.sql
-
-CREATE DATABASE IF NOT EXISTS travelmanagement;
-USE travelmanagement;
+-- TravelMS Schema
+-- For Railway: database is already created, no need for CREATE DATABASE / USE
 
 CREATE TABLE IF NOT EXISTS users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -49,8 +46,8 @@ CREATE TABLE IF NOT EXISTS reports (
   trip_id INT NOT NULL,
   generated_by INT NOT NULL,
   total_expenses DECIMAL(10,2) DEFAULT 0,
-  report_status VARCHAR(50) DEFAULT 'Generated',
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  report_status VARCHAR(50) NOT NULL DEFAULT 'PENDING',
+  generated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (trip_id) REFERENCES trips(trip_id) ON DELETE CASCADE,
   FOREIGN KEY (generated_by) REFERENCES users(user_id) ON DELETE CASCADE
 );
@@ -79,18 +76,17 @@ CREATE TABLE IF NOT EXISTS notifications (
   CONSTRAINT fk_notifications_trip FOREIGN KEY (trip_id) REFERENCES trips(trip_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS sessions (
+CREATE TABLE IF NOT EXISTS Sessions (
   session_id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   session_token VARCHAR(255) NOT NULL UNIQUE,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   expires_at DATETIME NOT NULL,
   is_active TINYINT(1) NOT NULL DEFAULT 1,
-  last_seen_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_sessions_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS usermanagementlogs (
+CREATE TABLE IF NOT EXISTS UserManagementLogs (
   log_id INT AUTO_INCREMENT PRIMARY KEY,
   admin_id INT NOT NULL,
   target_user_id INT NOT NULL,
@@ -100,4 +96,14 @@ CREATE TABLE IF NOT EXISTS usermanagementlogs (
   action_timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_logs_admin FOREIGN KEY (admin_id) REFERENCES users(user_id),
   CONSTRAINT fk_logs_target FOREIGN KEY (target_user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS TripMembers (
+  member_id INT AUTO_INCREMENT PRIMARY KEY,
+  trip_id INT NOT NULL,
+  user_id INT NOT NULL,
+  added_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_tripmembers_trip FOREIGN KEY (trip_id) REFERENCES trips(trip_id) ON DELETE CASCADE,
+  CONSTRAINT fk_tripmembers_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+  UNIQUE KEY uq_trip_user (trip_id, user_id)
 );
