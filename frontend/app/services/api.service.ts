@@ -81,7 +81,7 @@ export interface AppNotification {
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private base = 'http://localhost:3000/api';
+  private base = 'https://travelmsswe-production.up.railway.app/api';
 
   constructor(private http: HttpClient) {}
 
