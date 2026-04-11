@@ -5,7 +5,13 @@ const crypto = require('crypto');
 const pool = require('./db');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:4200',
+    'https://travel-ms-swe.vercel.app'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000;
