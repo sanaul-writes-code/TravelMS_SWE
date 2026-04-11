@@ -468,9 +468,9 @@ export class TripsComponent implements OnInit {
 
   // ── Budget helpers ───────────────────────────────────────────────────────────
 
-  spent(t: Trip): number { return t.total_spent || 0; }
-  isOverBudget(t: Trip): boolean { return this.spent(t) > (t.estimated_budget || 0); }
-  isNearBudget(t: Trip): boolean { return !this.isOverBudget(t) && this.spent(t) >= (t.estimated_budget || 0) * 0.9; }
+  spent(t: Trip): number { return Number(t.total_spent) || 0; }
+  isOverBudget(t: Trip): boolean { return this.spent(t) > (Number(t.estimated_budget) || 0); }
+  isNearBudget(t: Trip): boolean { return !this.isOverBudget(t) && this.spent(t) >= (Number(t.estimated_budget) || 0) * 0.9; }
 
   // ── Itinerary ────────────────────────────────────────────────────────────────
 
