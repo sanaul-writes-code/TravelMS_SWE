@@ -116,7 +116,7 @@ import { AuthService } from '../../services/auth.service';
                     <button class="btn-edit" (click)="edit(t)">Edit</button>
                     <button class="btn-delete" (click)="delete(t.trip_id!)">Delete</button>
                   } @else {
-                    @if (t.status === 'Pending') {
+                    @if (t.status === 'Pending' || t.status === 'Rejected') {
                       <button class="btn-edit" (click)="edit(t)">Edit</button>
                       <button class="btn-delete" (click)="delete(t.trip_id!)">Delete</button>
                     }
